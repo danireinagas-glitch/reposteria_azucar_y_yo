@@ -12,7 +12,7 @@
         @can('admin.pedidos.crear')
             <a href="{{ route('admin.pedidos.personalizados.create') }}" class="btn text-white"
                 style="border-left-color: #c92daa !important; border-width: 4px !important;">
-                <i class="fas fa-plus-circle mr-1"></i> Nuevo pedido personalizado
+                <i class="fas fa-plus-circle mr-1"></i> Nuevo pedido 
             </a>
         @endcan
     </div>
