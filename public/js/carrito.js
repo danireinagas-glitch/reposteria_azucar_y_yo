@@ -1,7 +1,7 @@
 // ==========================================
 // CARRITO DE COMPRAS - AZÚCAR Y YO
 // ==========================================
-const WHATSAPP_PHONE = "59170000000"; // Reemplaza por tu número de WhatsApp
+const WHATSAPP_PHONE = "59165318803";
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCart);

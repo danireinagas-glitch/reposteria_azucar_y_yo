@@ -8,11 +8,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | Número internacional (con código de país, sin + ni espacios) al que se
-    | envían los pedidos del menú digital. Ej: 59170000000
+    | envían los pedidos del menú digital. Ej: 59165318803
     |
     */
 
-    'phone' => env('WHATSAPP_PHONE', '59170000000'),
+    'phone' => env('WHATSAPP_PHONE', '59165318803'),
 
     /*
     |--------------------------------------------------------------------------
