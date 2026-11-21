@@ -14,7 +14,9 @@ class ProductImageController extends Controller
             404
         );
 
-        $path = Storage::disk('public')->path('productos/'.$filename);
+        $path = Storage::disk(config('images.public_disk'))->path(
+            config('images.product_directory').'/'.$filename
+        );
         abort_unless(is_file($path), 404);
 
         return response()->file($path, [

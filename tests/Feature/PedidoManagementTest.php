@@ -271,7 +271,7 @@ class PedidoManagementTest extends TestCase
     public function test_custom_order_reference_image_is_stored_and_can_be_removed(): void
     {
         $this->accounts();
-        Storage::fake('public');
+        Storage::fake('local');
 
         $this->actingAs($this->employee)
             ->post(route('admin.pedidos.personalizados.store'), array_merge(
@@ -283,7 +283,7 @@ class PedidoManagementTest extends TestCase
         $pedido = Pedido::firstOrFail();
         $path = $pedido->imagen_referencia;
         $this->assertNotNull($path);
-        Storage::disk('public')->assertExists($path);
+        Storage::disk('local')->assertExists($path);
         $this->get(route('admin.pedidos.imagen-referencia', $pedido))->assertOk();
 
         $this->actingAs($this->employee)
@@ -293,7 +293,7 @@ class PedidoManagementTest extends TestCase
             ->assertRedirect();
 
         $this->assertNull($pedido->fresh()->imagen_referencia);
-        Storage::disk('public')->assertMissing($path);
+        Storage::disk('local')->assertMissing($path);
     }
 
     public function test_custom_order_form_suggests_registered_products_and_saves_without_items_or_stock_changes(): void

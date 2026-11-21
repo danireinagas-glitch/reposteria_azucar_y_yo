@@ -115,7 +115,7 @@
                 <div class="col-md-4 col-sm-8">
                     <div class="product-card h-100 d-flex flex-column justify-content-between">
                         <div class="product-img-wrapper">
-                            <img src="{{ $producto->imagen ? asset($producto->imagen) : asset('img/default.jpg') }}"
+                            <img src="{{ $producto->imagen ? asset($producto->imagen) : asset(config('images.default_image')) }}"
                                 alt="{{ $producto->nombre }}" class="product-img" data-bs-toggle="modal"
                                 data-bs-target="#featuredProductImageModal" role="button" tabindex="0"
                                 aria-label="Ampliar imagen de {{ $producto->nombre }}">
@@ -145,7 +145,7 @@
                             <button class="btn-card-action btn-add-to-cart" title="Añadir al Carrito"
                                 data-id="{{ $producto->id }}" data-nombre="{{ $producto->nombre }}"
                                 data-precio="{{ $producto->precio }}"
-                                data-imagen="{{ $producto->imagen ? asset($producto->imagen) : asset('img/default.jpg') }}">
+                                data-imagen="{{ $producto->imagen ? asset($producto->imagen) : asset(config('images.default_image')) }}">
                                 <i class="bi bi-cart"></i>
                             </button>
                         </div>

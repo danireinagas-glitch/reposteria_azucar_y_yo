@@ -473,7 +473,7 @@ class PedidoController extends Controller
             404
         );
 
-        $absolutePath = Storage::disk('public')->path($imagePath);
+        $absolutePath = Storage::disk(config('images.private_disk'))->path($imagePath);
         abort_unless(is_file($absolutePath), 404);
 
         return response()->file($absolutePath, [
@@ -523,7 +523,10 @@ class PedidoController extends Controller
         $referenceImage = $data['imagen_referencia'] ?? null;
         unset($data['imagen_referencia'], $data['quitar_imagen_referencia']);
 
-        $storedImagePath = $referenceImage?->store('pedidos/referencias', 'public');
+        $storedImagePath = $referenceImage?->store(
+            config('images.order_reference_directory'),
+            config('images.private_disk')
+        );
         if ($storedImagePath) {
             $data['imagen_referencia'] = $storedImagePath;
         }
@@ -532,7 +535,7 @@ class PedidoController extends Controller
             $pedido = $businessRules->create(Auth::user(), $data);
         } catch (Throwable $exception) {
             if ($storedImagePath) {
-                Storage::disk('public')->delete($storedImagePath);
+                Storage::disk(config('images.private_disk'))->delete($storedImagePath);
             }
 
             throw $exception;
@@ -580,7 +583,10 @@ class PedidoController extends Controller
         $previousImagePath = $pedido->imagen_referencia;
         unset($data['imagen_referencia'], $data['quitar_imagen_referencia']);
 
-        $storedImagePath = $referenceImage?->store('pedidos/referencias', 'public');
+        $storedImagePath = $referenceImage?->store(
+            config('images.order_reference_directory'),
+            config('images.private_disk')
+        );
         if ($storedImagePath) {
             $data['imagen_referencia'] = $storedImagePath;
         } elseif ($removeReferenceImage) {
@@ -591,14 +597,14 @@ class PedidoController extends Controller
             $pedido = $businessRules->update(Auth::user(), $pedido, $data);
         } catch (Throwable $exception) {
             if ($storedImagePath) {
-                Storage::disk('public')->delete($storedImagePath);
+                Storage::disk(config('images.private_disk'))->delete($storedImagePath);
             }
 
             throw $exception;
         }
 
         if ($previousImagePath && ($storedImagePath || $removeReferenceImage)) {
-            Storage::disk('public')->delete($previousImagePath);
+            Storage::disk(config('images.private_disk'))->delete($previousImagePath);
         }
 
         $pedido->refresh();

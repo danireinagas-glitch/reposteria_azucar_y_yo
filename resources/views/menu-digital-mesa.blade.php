@@ -315,7 +315,7 @@
                         @if ($producto->imagen)
                             <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}" loading="lazy">
                         @else
-                            <img src="{{ asset('img/default.jpg') }}" alt="" loading="lazy">
+                            <img src="{{ asset(config('images.default_image')) }}" alt="" loading="lazy">
                         @endif
                         <div class="product-body card-body">
                             <h2 class="card-title">{{ $producto->nombre }}</h2>

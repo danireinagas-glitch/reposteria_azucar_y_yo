@@ -103,7 +103,7 @@
                         </button>
                         <div class="product-img-wrapper">
                             <!-- Carga dinámica segura -->
-                            <img src="{{ $producto->imagen ? asset($producto->imagen) : asset('img/default.jpg') }}"
+                            <img src="{{ $producto->imagen ? asset($producto->imagen) : asset(config('images.default_image')) }}"
                                 alt="{{ $producto->nombre }}" class="product-img" data-bs-toggle="modal"
                                 data-bs-target="#productImageModal" role="button" tabindex="0"
                                 aria-label="Ampliar imagen de {{ $producto->nombre }}">
@@ -123,7 +123,7 @@
                             <button type="button" class="btn btn-add-cart btn-add-to-cart"
                                 data-id="{{ $producto->id }}" data-nombre="{{ $producto->nombre }}"
                                 data-precio="{{ $producto->precio }}"
-                                data-imagen="{{ $producto->imagen ? asset($producto->imagen) : asset('img/default.jpg') }}">
+                                data-imagen="{{ $producto->imagen ? asset($producto->imagen) : asset(config('images.default_image')) }}">
                                 <i class="bi bi-cart-plus"></i> Añadir
                             </button>
                         </div>

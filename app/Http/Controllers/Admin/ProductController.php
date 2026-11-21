@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -93,7 +94,10 @@ class ProductController extends Controller
         $data['en_menu_digital'] = false;
 
         if ($request->hasFile('imagen')) {
-            $path = $request->file('imagen')->store('productos', 'public');
+            $path = $request->file('imagen')->store(
+                config('images.product_directory'),
+                config('images.public_disk')
+            );
             $data['imagen'] = 'storage/'.$path;
         }
 
@@ -123,11 +127,11 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe localmente
-            if ($producto->imagen && file_exists(public_path($producto->imagen))) {
-                @unlink(public_path($producto->imagen));
-            }
-            $path = $request->file('imagen')->store('productos', 'public');
+            $this->deletePublicImage($producto->imagen);
+            $path = $request->file('imagen')->store(
+                config('images.product_directory'),
+                config('images.public_disk')
+            );
             $data['imagen'] = 'storage/'.$path;
         }
 
@@ -211,14 +215,26 @@ class ProductController extends Controller
     public function destroy(Product $producto)
     {
         $this->checkPermission('admin.productos.ver');
-        // Eliminar imagen física si existe
-        if ($producto->imagen && file_exists(public_path($producto->imagen))) {
-            @unlink(public_path($producto->imagen));
-        }
+        $this->deletePublicImage($producto->imagen);
 
         $producto->delete();
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto eliminado correctamente.');
+    }
+
+    private function deletePublicImage(?string $image): void
+    {
+        if (! $image) {
+            return;
+        }
+
+        $relativePath = str_starts_with($image, 'storage/')
+            ? substr($image, strlen('storage/'))
+            : $image;
+
+        if (str_starts_with($relativePath, config('images.product_directory').'/')) {
+            Storage::disk(config('images.public_disk'))->delete($relativePath);
+        }
     }
 
     private function checkPermission(string $permission): void
