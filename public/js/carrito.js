@@ -1,7 +1,10 @@
 // ==========================================
 // CARRITO DE COMPRAS - AZÚCAR Y YO
 // ==========================================
-const WHATSAPP_PHONE = "59165318803";
+const WHATSAPP_PHONE = String(window.AZUCAR_WHATSAPP_PHONE || '').replace(/\D/g, '');
+const WHATSAPP_NEGOCIO = String(window.AZUCAR_WHATSAPP_NEGOCIO || 'Azúcar y Yo');
+const WHATSAPP_HORARIO_SEMANA = String(window.AZUCAR_WHATSAPP_HORARIO_SEMANA || '');
+const WHATSAPP_HORARIO_DOMINGO = String(window.AZUCAR_WHATSAPP_HORARIO_DOMINGO || '');
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCart);
@@ -156,17 +159,56 @@ function sendOrderToWhatsApp() {
         return;
     }
 
-    let message = "¡Hola *Azúcar y Yo*! 🧁✨ Quisiera realizar el siguiente pedido:\n\n";
+    if (!WHATSAPP_PHONE) {
+        alert('No hay un número de WhatsApp configurado.');
+        return;
+    }
+
+    let message = [
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        `🍰✨ *${WHATSAPP_NEGOCIO}* ✨🍰`,
+        '_Repostería Artesanal_',
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        '',
+        `¡Hola *${WHATSAPP_NEGOCIO}*! 👋🧁`,
+        '*Quisiera realizar el siguiente pedido:*',
+        '',
+        '──────────────────────',
+        '🛒 *Detalle del pedido:*',
+    ].join('\n');
+
     let total = 0;
 
     cart.forEach(item => {
         const subtotal = item.precio * item.cantidad;
         total += subtotal;
-        message += `• *${item.cantidad}x* ${item.nombre} - Bs. ${subtotal.toFixed(2)}\n`;
+        const nombre = String(item.nombre || 'Producto').replace(/[\r\n]+/g, ' ').trim();
+        message += `\n• *${item.cantidad}x ${nombre}* — *Bs. ${subtotal.toFixed(2)}*`;
     });
 
-    message += `\n*Total estimado:* Bs. ${total.toFixed(2)}\n\n`;
-    message += "Quedo a la espera de la confirmación. ¡Muchas gracias!";
+    message += [
+        '',
+        '',
+        `💰 *Total estimado:* *Bs. ${total.toFixed(2)}*`,
+        '──────────────────────',
+        '',
+        '🕒 *Horarios de atención:*',
+    ].join('\n');
+
+    if (WHATSAPP_HORARIO_SEMANA) {
+        message += `\n• ${WHATSAPP_HORARIO_SEMANA}`;
+    }
+    if (WHATSAPP_HORARIO_DOMINGO) {
+        message += `\n• ${WHATSAPP_HORARIO_DOMINGO}`;
+    }
+
+    message += [
+        '',
+        '',
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        '> _Quedo a la espera de la confirmación. ¡Muchas gracias!_ 💛🍰',
+        '━━━━━━━━━━━━━━━━━━━━━━',
+    ].join('\n');
 
     const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');

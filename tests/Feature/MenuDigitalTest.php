@@ -28,6 +28,21 @@ class MenuDigitalTest extends TestCase
         $this->admin->assignRole(User::ROL_ADMIN);
     }
 
+    public function test_public_pages_expose_whatsapp_configuration(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('AZUCAR_WHATSAPP_PHONE')
+            ->assertSee('AZUCAR_WHATSAPP_HORARIO_SEMANA')
+            ->assertSee('id="mobileMenu"', false)
+            ->assertSee('Abrir menú');
+
+        $this->get('/catalogo')
+            ->assertOk()
+            ->assertSee('AZUCAR_WHATSAPP_PHONE')
+            ->assertSee('AZUCAR_WHATSAPP_HORARIO_DOMINGO');
+    }
+
     private function product(array $attributes = []): Product
     {
         $category = Category::firstOrCreate(
@@ -63,16 +78,10 @@ class MenuDigitalTest extends TestCase
         $this->product(['nombre' => 'Visible en menú']);
 
         $this->get(route('menu'))
-            ->assertOk()
-            ->assertSee('escanea el código QR colocado en tu mesa')
-            ->assertDontSee('Visible en menú')
-            ->assertDontSee('Modo Pantalla Completa')
-            ->assertDontSee('Llamar mesero');
+            ->assertNotFound();
 
         $this->get(route('menu', ['pantalla' => 1]))
-            ->assertOk()
-            ->assertSee('escanea el código QR colocado en tu mesa')
-            ->assertDontSee('Modo Pantalla Completa');
+            ->assertNotFound();
 
         $mesa = Mesa::create([
             'nombre' => 'Mesa móvil',
@@ -587,10 +596,7 @@ class MenuDigitalTest extends TestCase
         $product = $this->product(['precio' => 42.50]);
 
         $this->get(route('menu'))
-            ->assertOk()
-            ->assertDontSee('Añadir al carrito')
-            ->assertDontSee('Finalizar pedido')
-            ->assertDontSee('menu.pedido');
+            ->assertNotFound();
 
         $this->post('/menu/pedido', [
             'cliente_nombre' => 'Daniela',
@@ -809,7 +815,7 @@ class MenuDigitalTest extends TestCase
         $this->assertFalse($product->estado);
         $this->assertFalse($product->destacado);
         $this->assertFalse($product->en_menu_digital);
-        $this->get(route('menu'))->assertDontSee($product->nombre);
+        $this->get(route('menu'))->assertNotFound();
         $this->get(route('admin.caja.index'))->assertDontSee($product->nombre);
         $this->get(route('catalogo'))->assertDontSee($product->nombre);
         $this->get('/')->assertDontSee($product->nombre);

@@ -15,25 +15,24 @@ class MenuPublicController extends Controller
     /** Menú digital público: el que ve el cliente desde el celular. */
     public function index(Request $request)
     {
+        $token = $request->query('mesa');
+        if (! is_string($token) || $token === '' || ! preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i', $token)) {
+            abort(404);
+        }
+
         $filters = $request->validate([
             'q' => ['nullable', 'string', 'max:100'],
             'categoria' => ['nullable', 'integer', 'exists:categories,id'],
-            'mesa' => ['nullable', 'uuid', 'exists:mesas,qr_token'],
         ]);
-        $mesa = isset($filters['mesa'])
-            ? Mesa::query()->where('qr_token', $filters['mesa'])->where('activa', true)->firstOrFail()
-            : null;
+        $mesa = Mesa::query()
+            ->where('qr_token', $token)
+            ->where('activa', true)
+            ->firstOrFail();
         $productos = Product::with('category')
             ->enMenuDigital()
             ->orderBy('category_id')
             ->orderByRaw('orden_destacado IS NULL, orden_destacado')
             ->orderBy('nombre');
-
-        if (! $mesa) {
-            return response()
-                ->view('menu-sin-mesa')
-                ->header('Cache-Control', 'no-store, private');
-        }
 
         $productos->buscar($filters['q'] ?? null)
             ->when(isset($filters['categoria']), fn ($q) => $q->where('category_id', $filters['categoria']));

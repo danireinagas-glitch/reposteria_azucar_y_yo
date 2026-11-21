@@ -208,6 +208,12 @@
             });
         });
     </script>
+    <script>
+        window.AZUCAR_WHATSAPP_PHONE = @json(config('whatsapp.phone'));
+        window.AZUCAR_WHATSAPP_NEGOCIO = @json(config('whatsapp.negocio.nombre'));
+        window.AZUCAR_WHATSAPP_HORARIO_SEMANA = @json(config('whatsapp.horarios.entre_semana'));
+        window.AZUCAR_WHATSAPP_HORARIO_DOMINGO = @json(config('whatsapp.horarios.domingo'));
+    </script>
     <script src="{{ asset('js/carrito.js') }}"></script>
     <script src="{{ asset('js/product-likes.js') }}"></script>
 </body>

@@ -26,6 +26,11 @@ return [
         'telefono' => env('NEGOCIO_TELEFONO', ''),
     ],
 
+    'horarios' => [
+        'entre_semana' => env('WHATSAPP_HORARIO_SEMANA', 'Lun a Sáb: 09:00 – 20:00'),
+        'domingo' => env('WHATSAPP_HORARIO_DOMINGO', 'Domingo: 10:00 – 14:00'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Impresión de fichas

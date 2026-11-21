@@ -374,8 +374,47 @@ footer {
 
 /* ---------------- Responsive ---------------- */
 @media (max-width: 768px) {
+    .hero-section {
+        padding: 38px 0 48px;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: clamp(2.15rem, 11vw, 3rem);
+        line-height: 1.02;
+    }
+
+    .hero-description {
+        margin: 18px auto 24px;
+        font-size: 1rem;
+        line-height: 1.55;
+    }
+
+    .hero-section .row {
+        --bs-gutter-x: 1rem;
+    }
+
+    .hero-section .col-lg-6:first-child {
+        margin-bottom: 8px !important;
+    }
+
     .hero-3d-wrapper {
-        min-height: 260px;
+        min-height: clamp(220px, 62vw, 300px);
+        max-height: 300px;
+    }
+
+    .top-section {
+        padding: 42px 12px;
+        border-radius: 28px;
+    }
+
+    .top-section .product-card {
+        max-width: 340px;
+        margin-inline: auto;
+    }
+
+    .top-section .product-img-wrapper {
+        height: clamp(180px, 58vw, 220px);
     }
 
     .features-3d-wrapper {
@@ -388,5 +427,58 @@ footer {
 
     .quiz-banner {
         padding: 32px 24px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 991.98px) {
+    .hero-section {
+        padding: 52px 0 68px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.8rem, 7vw, 3.5rem);
+    }
+
+    .hero-3d-wrapper {
+        min-height: clamp(300px, 40vw, 360px);
+    }
+
+    .top-section {
+        padding: 56px 24px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-section {
+        min-height: clamp(620px, 72vh, 820px);
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-3d-wrapper {
+        min-height: clamp(380px, 44vh, 520px);
+    }
+
+    .top-section {
+        max-width: 1280px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .navbar-custom .container,
+    .hero-section .container,
+    .top-section,
+    .features-section .container,
+    .reviews-section .container,
+    .footer-custom .container {
+        max-width: 1480px;
+    }
+
+    .hero-title {
+        font-size: 4.25rem;
+    }
+
+    .hero-description {
+        max-width: 560px;
     }
 }

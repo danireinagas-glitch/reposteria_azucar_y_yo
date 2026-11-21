@@ -14,22 +14,6 @@
     <link rel="stylesheet" href="{{ asset('estilos/base.css') }}">
     <link rel="stylesheet" href="{{ asset('estilos/index.css') }}">
     <style>
-        .brand-logo-image img {
-            max-width: min(31vw, 155px);
-            height: 62px;
-        }
-
-        @media (max-width: 575.98px) {
-            .brand-logo-image img {
-                max-width: 115px;
-                height: 50px;
-            }
-        }
-
-        .top-section .product-img-wrapper {
-            height: 160px;
-        }
-
         .top-section .product-img {
             width: 100%;
             height: 100%;
@@ -48,17 +32,16 @@
                 <img src="{{ asset('img/logo_reposteria_transparente.png') }}" alt="Azúcar y Yo">
             </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarContent">
+            <button class="navbar-toggler border-0 d-lg-none" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Abrir menú">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarContent">
                 <div class="mx-auto my-2 my-lg-0">
                     <ul class="navbar-nav nav-pill-container flex-row gap-1 justify-content-center">
                         <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('catalogo') }}">Catálogo</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('menu') }}">Pedir en mi mesa</a></li>
                         <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
                         <li class="nav-item"><a class="nav-link" href="#resenas">Reseñas</a></li>
                         <li class="nav-item"><a class="nav-link" href="#destacados">Ofertas</a></li>
@@ -85,6 +68,39 @@
             </div>
         </div>
     </header>
+
+    <div class="offcanvas offcanvas-start mobile-main-menu" tabindex="-1" id="mobileMenu"
+        aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="mobileMenuLabel">
+                <img src="{{ asset('img/logo_reposteria_transparente.png') }}" alt="Azúcar y Yo">
+            </h2>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <nav class="mobile-nav-links" aria-label="Navegación principal">
+                <a class="active" href="{{ url('/') }}" data-bs-dismiss="offcanvas">Inicio</a>
+                <a href="{{ route('catalogo') }}" data-bs-dismiss="offcanvas">Catálogo</a>
+                <a href="#nosotros" data-bs-dismiss="offcanvas">Nosotros</a>
+                <a href="#resenas" data-bs-dismiss="offcanvas">Reseñas</a>
+                <a href="#destacados" data-bs-dismiss="offcanvas">Ofertas</a>
+            </nav>
+            <div class="mobile-menu-actions">
+                <a href="{{ route('login') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-person me-1"></i>Iniciar sesión
+                </a>
+                <button type="button" class="btn btn-cart mobile-cart-button" data-bs-toggle="offcanvas"
+                    data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                    <i class="bi bi-bag me-1"></i>Carrito
+                    <span class="cart-badge">0</span>
+                </button>
+                <button type="button" class="btn btn-pedido" data-bs-toggle="offcanvas"
+                    data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                    Haz tu Pedido
+                </button>
+            </div>
+        </div>
+    </div>
 
     <section class="hero-section">
         <div class="container">
@@ -402,6 +418,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
+    <script>
+        window.AZUCAR_WHATSAPP_PHONE = @json(config('whatsapp.phone'));
+        window.AZUCAR_WHATSAPP_NEGOCIO = @json(config('whatsapp.negocio.nombre'));
+        window.AZUCAR_WHATSAPP_HORARIO_SEMANA = @json(config('whatsapp.horarios.entre_semana'));
+        window.AZUCAR_WHATSAPP_HORARIO_DOMINGO = @json(config('whatsapp.horarios.domingo'));
+    </script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/carrito.js') }}"></script>
 </body>
