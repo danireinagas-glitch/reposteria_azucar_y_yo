@@ -164,7 +164,7 @@
                                 <div class="position-relative"
                                     style="height: 130px; overflow: hidden; background: #f4eaed;">
                                     @if ($producto->imagen)
-                                        <img src="{{ asset($producto->imagen) }}" class="w-100 h-100"
+                                        <img src="{{ $producto->imagen_url }}" class="w-100 h-100"
                                             alt="{{ $producto->nombre }}"
                                             style="object-fit: cover; transition: transform 0.3s;">
                                     @else

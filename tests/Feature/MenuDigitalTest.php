@@ -116,7 +116,7 @@ class MenuDigitalTest extends TestCase
             ->assertOk()
             ->assertHeader('content-type', 'image/jpeg');
 
-        $imageUrl = asset($product->imagen);
+        $imageUrl = $product->imagen_url;
         $mesa = Mesa::create([
             'nombre' => 'Mesa con imagen',
             'qr_token' => (string) Str::uuid(),

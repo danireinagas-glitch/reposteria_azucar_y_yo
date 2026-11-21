@@ -35,7 +35,7 @@ Route::post('/mesas/{mesa:qr_token}/solicitar', [MenuPublicController::class, 's
     ->name('menu.mesa.solicitar');
 Route::post('/mesas/{mesa:qr_token}/cancelar', [MenuPublicController::class, 'cancelarSolicitud'])
     ->name('menu.mesa.cancelar');
-Route::get('/storage/productos/{filename}', ProductImageController::class)
+Route::get('/imagenes/productos/{filename}', ProductImageController::class)
     ->where('filename', '[A-Za-z0-9][A-Za-z0-9_-]*\.(?:jpg|jpeg|png|webp)')
     ->name('product-images.show');
 

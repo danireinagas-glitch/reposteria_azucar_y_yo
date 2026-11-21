@@ -67,7 +67,7 @@
                                         <div class="menu-product-cell">
                                             <div class="menu-product-thumb">
                                                 @if ($producto->imagen)
-                                                    <img src="{{ asset($producto->imagen) }}" alt="" loading="lazy">
+                                                    <img src="{{ $producto->imagen_url }}" alt="" loading="lazy">
                                                 @else
                                                     <i class="fas fa-cookie-bite"></i>
                                                 @endif

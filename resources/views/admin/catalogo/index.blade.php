@@ -45,7 +45,7 @@
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4">
                         <article class="catalog-product-card">
                             <div class="catalog-product-image">
-                                <img src="{{ $producto->imagen ? asset($producto->imagen) : asset(config('images.default_image')) }}"
+                                <img src="{{ $producto->imagen_url }}"
                                     alt="{{ $producto->nombre }}" loading="lazy">
                                 <span class="catalog-visible-badge"><i class="fas fa-eye mr-1"></i> Visible</span>
                                 @if ($producto->destacado)

@@ -76,7 +76,7 @@
                         <label for="imagen" class="form-label">Imagen Actual</label>
                         @if ($producto->imagen)
                             <div class="mb-2">
-                                <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}" width="100"
+                                <img src="{{ $producto->imagen_url }}" alt="{{ $producto->nombre }}" width="100"
                                     class="img-thumbnail">
                             </div>
                         @else

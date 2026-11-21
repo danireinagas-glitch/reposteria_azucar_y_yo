@@ -313,7 +313,7 @@
                 @foreach ($productos as $producto)
                     <article class="product card" data-category="{{ $producto->category_id }}" data-product-card="{{ $producto->id }}">
                         @if ($producto->imagen)
-                            <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}" loading="lazy">
+                            <img src="{{ $producto->imagen_url }}" alt="{{ $producto->nombre }}" loading="lazy">
                         @else
                             <img src="{{ asset(config('images.default_image')) }}" alt="" loading="lazy">
                         @endif

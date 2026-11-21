@@ -85,4 +85,15 @@ class Product extends Model
     {
         return (int) $this->stock <= 0;
     }
+
+    public function getImagenUrlAttribute(): string
+    {
+        if (! $this->imagen) {
+            return asset(config('images.default_image'));
+        }
+
+        $filename = basename(str_replace('\\', '/', $this->imagen));
+
+        return route('product-images.show', ['filename' => $filename]);
+    }
 }

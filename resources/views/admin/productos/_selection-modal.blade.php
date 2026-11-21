@@ -50,7 +50,7 @@
                                         <i class="fas fa-check"></i>
                                     </span>
                                     <span class="product-selection-image">
-                                        <img src="{{ $producto->imagen ? asset($producto->imagen) : asset(config('images.default_image')) }}"
+                                        <img src="{{ $producto->imagen_url }}"
                                             alt="" loading="lazy">
                                     </span>
                                     <span class="product-selection-details">
